@@ -7,7 +7,6 @@ class Google_API:
     def search(query):
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Type': 'application/x-www-form-urlencoded',
             'Cache-Control': 'no-cache'
         }
 
@@ -27,10 +26,14 @@ class Google_API:
         for result in results:
             try:
                 h3 = result.find('h3')
-                link = h3.find('a').attrs['href'][len('/url?q='):]
+                unfiltered_link = h3.find('a').attrs['href']
+                link = unfiltered_link[len('/url?q='):unfiltered_link.find('&')]
                 title = h3.text
                 innerHTML = result.find('span', class_='st').decode_contents(formatter="html")
                 displayLink = result.find('cite').text
+
+                if len(displayLink) > 65:
+                    displayLink = displayLink[:65] + '...'
 
                 parsed_results.append({
                     'link': link,
