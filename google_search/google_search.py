@@ -1,16 +1,44 @@
-from apiclient.discovery import build
-from config.config import Config
-import json
+import requests
+from bs4 import BeautifulSoup
+from random import random
+import re
 
-class GoogleSearch:
+class Google_API:
+    def search(query):
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Cache-Control': 'no-cache'
+        }
 
-    def __init__(self):
-        self.config = Config()
-        self.service = build('customsearch', 'v1', developerKey=self.config.getEnvVar('CS_DEV_KEY'))
+        subbed_query = re.sub(r"\s+", '+', query)
 
-    def search(self, query):
-        query = 'dogs ' + query
-        res = self.service.cse().list(q=query, cx=self.config.getEnvVar('CX')).execute()
-        return res['items']
+        r = requests.get('https://www.google.com/search?q='+subbed_query, headers=headers)
+        return Google_API.parse_google_response(r)
 
-google = GoogleSearch()
+    def parse_google_response(r):
+        if r.status_code != 200:
+            return None
+
+        soup = BeautifulSoup(r.content, 'html.parser')
+        results = soup.find_all('div', class_='g')
+        parsed_results = []
+
+        for result in results:
+            try:
+                h3 = result.find('h3')
+                link = h3.find('a').attrs['href'][len('/url?q='):]
+                title = h3.text
+                innerHTML = result.find('span', class_='st').decode_contents(formatter="html")
+                displayLink = result.find('cite').text
+
+                parsed_results.append({
+                    'link': link,
+                    'title': title,
+                    'htmlSnippet': innerHTML,
+                    'displayLink': displayLink
+                })
+            except:
+                print('skipped..')
+
+        return parsed_results

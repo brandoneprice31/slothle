@@ -3,7 +3,7 @@ from sanic.response import json, html
 from sanic import Blueprint
 
 from template_loader.template_loader import template
-from google_search.google_search import google
+from google_search.google_search import Google_API
 
 search = Blueprint('search')
 
@@ -17,7 +17,7 @@ async def index(request):
     items = []
     broken = True
     try:
-        items = google.search(request.args['q'][0])
+        items = Google_API.search('sloths' + request.args['q'][0])
         broken = False
     except:
         print('didnt work :(')
