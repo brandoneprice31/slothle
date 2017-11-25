@@ -14,8 +14,14 @@ async def index(request):
 
 @search.route('/search', methods=['GET'])
 async def index(request):
-    items = google.search(request.args['q'][0])
-    return html(template('search_results.html').render(items=items, query=request.args['q'][0]))
+    items = []
+    broken = True
+    try:
+        items = google.search(request.args['q'][0])
+        broken = False
+    except:
+        print('didnt work :(')
+    return html(template('search_results.html').render(broken=broken, items=items, query=request.args['q'][0]))
 
 @search.route('/images', methods=['GET'])
 async def index(request):

@@ -8,7 +8,7 @@ class GoogleSearch:
 
     def search(self, query):
         query = 'dogs ' + query
-        res = self.service.cse().list(q=query, cx='017199820021536338197:lqa2t7jynnu').execute()
+        res = self.service.cse().list(q=query, cx='017199820021536338197:le0mbdsa7ty').execute()
         return res['items']
 
 google = GoogleSearch()
