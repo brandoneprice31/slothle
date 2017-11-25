@@ -15,4 +15,4 @@ docker tag slothle:$1 832531170141.dkr.ecr.us-east-2.amazonaws.com/slothle:$1;
 
 docker push 832531170141.dkr.ecr.us-east-2.amazonaws.com/slothle:$1;
 
-~/src/ecs-deploy/./ecs-deploy -c bep-projects -n slothle-$1-api -i 832531170141.dkr.ecr.us-east-2.amazonaws.com/slothle:$1;
+~/src/ecs-deploy/./ecs-deploy -c bep-projects -n slothle -i 832531170141.dkr.ecr.us-east-2.amazonaws.com/slothle:$1;
