@@ -1,7 +1,7 @@
-# doggle
+# slothle
 
 ### run locally
-* run a mongo database named `doggle`
+* run a mongo database named `slothle`
 * install python 3
 * create virtualenv `virtualenv -p python3 venv`
 * run the virtualenv `source ven/bin/activate`
@@ -11,4 +11,4 @@
 ### deploying
 * clone [ecs-deploy](https://github.com/silinternational/ecs-deploy) into a ~/src folder
 * `bash deploy.sh testing | production`
-# slothle
+``
