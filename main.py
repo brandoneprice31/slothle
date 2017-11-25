@@ -1,4 +1,5 @@
 from sanic import Sanic
+from sanic.response import redirect
 
 from search import search
 from etc import etc
